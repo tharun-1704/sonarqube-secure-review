@@ -1,0 +1,8 @@
+# Gate config: app-vulnerable/ leaks secrets on purpose (it is the "before"
+# side of the lab). Everything else in the repo, across all history, must be clean.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Intentionally vulnerable lab code"
+paths = ['''(^|/)app-vulnerable/''']

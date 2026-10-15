@@ -16,6 +16,8 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "s3cr3t-k3y-do-not-share"
 # FLAW: hardcoded database password
 DB_PASSWORD = "SuperSecret123!"
+# FLAW: third-party API key committed to source (fake, never valid)
+PAYMENT_API_KEY = "2b7c00eafaf51815af15f19b774f0707b1c61620"
 
 DB_PATH = "users.db"
 

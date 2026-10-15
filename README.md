@@ -175,6 +175,47 @@ marking a Hotspot "Safe" in SonarQube.
 
 ---
 
+## Level 2: Dependency and Secret Scanning
+
+SAST reads *my* code. Two more risks live outside it: **other people's code**
+(dependencies) and **credentials** committed to the repo.
+
+### Planted for this level
+
+- `app-vulnerable/requirements.txt` pins `flask==0.12.2` and `requests==2.19.1`,
+  releases with published CVEs.
+- `app-vulnerable/app.py` commits a `PAYMENT_API_KEY` (fake, random, never valid).
+
+### Results
+
+| Check | Tool | `app-vulnerable` | `app-fixed` |
+|-------|------|------------------|-------------|
+| Known-vulnerable dependencies (SCA) | pip-audit | **45 known vulnerabilities in 4 packages** | No known vulnerabilities |
+| Committed secrets | gitleaks | **1 leak** (`generic-api-key`) | None (whole git history) |
+
+The 4 vulnerable packages are `flask` and `requests` plus `urllib3` and `idna`,
+which `requests` pulls in. Pinning two direct dependencies inherited CVEs from
+two transitive ones.
+
+Gitleaks flagged the high-entropy API key but **not** `SuperSecret123!` or the
+Flask `SECRET_KEY`: low-entropy strings look like ordinary text to an
+entropy-based detector. Bandit's `B105` caught those two by looking at the
+variable name instead. Again, layering tools covers each one's blind spot.
+
+### Enforcement
+
+- **CI gates** (`pip-audit`, `gitleaks` jobs): any known CVE in `app-fixed`'s
+  dependencies, or any secret anywhere outside `app-vulnerable/` in **any
+  commit**, fails the build. Verified by planting a key in `app-fixed/`
+  locally: the gate exited 1.
+- **Dependabot** ([`.github/dependabot.yml`](.github/dependabot.yml)) opens
+  weekly PRs to keep `app-fixed` and the workflow actions patched.
+  `app-vulnerable` is excluded on purpose.
+- [`.gitleaks.toml`](.gitleaks.toml) allow-lists only `app-vulnerable/`, with
+  the reason written down: a documented suppression, not a silenced alarm.
+
+---
+
 ## What SonarQube's Categories Mean (in my own words)
 
 - **Bug:** code that is demonstrably wrong and may break at runtime.

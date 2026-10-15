@@ -1,0 +1,11 @@
+version: 2
+updates:
+  # Only the fixed app is kept patched; app-vulnerable pins old releases on purpose.
+  - package-ecosystem: pip
+    directory: /app-fixed
+    schedule:
+      interval: weekly
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

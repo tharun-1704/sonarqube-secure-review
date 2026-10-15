@@ -45,3 +45,33 @@ jobs:
         run: semgrep scan --config p/python --config p/flask --config p/secrets --metrics=off app-vulnerable
       - name: Gate app-fixed (any finding fails the build)
         run: semgrep scan --config p/python --config p/flask --config p/secrets --metrics=off --error app-fixed
+
+  pip-audit:
+    name: pip-audit (dependency gate on app-fixed)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pip-audit
+      - name: Report on app-vulnerable (informational)
+        run: pip-audit -r app-vulnerable/requirements.txt --progress-spinner off || true
+      - name: Gate app-fixed (any known CVE fails the build)
+        run: pip-audit -r app-fixed/requirements.txt --progress-spinner off
+
+  gitleaks:
+    name: gitleaks (secret gate, full git history)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Report on app-vulnerable (informational)
+        run: >-
+          docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:latest
+          dir /repo/app-vulnerable --no-banner --exit-code 0
+      - name: Gate everything else, every commit
+        run: >-
+          docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:latest
+          git /repo --config /repo/.gitleaks.toml --no-banner --redact
