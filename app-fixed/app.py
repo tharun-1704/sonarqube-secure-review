@@ -7,7 +7,8 @@ import ipaddress
 import os
 import re
 import sqlite3
-import subprocess
+# Reviewed: only called below with a fixed argv and shell=False.
+import subprocess  # nosec B404
 
 import bcrypt
 import requests
@@ -21,8 +22,11 @@ DB_PASSWORD = os.environ.get("DB_PASSWORD")
 
 DB_PATH = os.environ.get("DB_PATH", "users.db")
 
-HOSTNAME_RE = re.compile(r"^(?=.{1,253}$)([A-Za-z0-9-]{1,63}\.)*[A-Za-z0-9-]{1,63}$")
-ALLOWED_FETCH_HOSTS = {"example.com", "www.example.com"}
+HOSTNAME_RE = re.compile(
+    r"^(?=.{1,253}$)([A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)*"
+    r"[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?$"
+)
+ALLOWED_FETCH_URLS = ("https://example.com", "https://www.example.com")
 
 
 def get_db():
@@ -82,8 +86,10 @@ def ping():
     host = request.args.get("host", "127.0.0.1")
     if not is_valid_host(host):
         return jsonify(error="invalid host"), 400
-    # Argument list, no shell: input cannot inject extra commands.
-    result = subprocess.run(
+    # Argument list, no shell: input cannot inject extra commands. Labels may
+    # not start with "-", so the host cannot be read as a ping option either.
+    # Reviewed: validated host, no shell, ping resolved from PATH on purpose.
+    result = subprocess.run(  # nosec B603 B607
         ["ping", "-c", "1", host], shell=False, capture_output=True, timeout=5
     )
     return jsonify(host=host, reachable=result.returncode == 0)
@@ -103,11 +109,13 @@ def calc():
 @app.route("/fetch")
 def fetch():
     url = request.args.get("url", "https://example.com")
-    host = requests.utils.urlparse(url).hostname
-    if not url.startswith("https://") or host not in ALLOWED_FETCH_HOSTS:
+    # Fetch the allow-listed constant, never the caller's string, so URL
+    # parser tricks cannot redirect the request (SSRF).
+    target = next((allowed for allowed in ALLOWED_FETCH_URLS if allowed == url), None)
+    if target is None:
         return jsonify(error="url not allowed"), 400
     # TLS verification stays on (the default), made explicit here.
-    resp = requests.get(url, verify=True, timeout=5)
+    resp = requests.get(target, verify=True, timeout=5)
     return jsonify(status=resp.status_code, length=len(resp.content))
 
 

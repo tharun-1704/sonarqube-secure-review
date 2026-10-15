@@ -1,0 +1,47 @@
+name: security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  exploit-tests:
+    name: Proof-of-exploit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements-dev.txt
+      - run: python -m pytest -v
+
+  bandit:
+    name: Bandit (quality gate on app-fixed)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install bandit
+      - name: Report on app-vulnerable (informational)
+        run: bandit -r app-vulnerable --exit-zero
+      - name: Gate app-fixed (any finding fails the build)
+        run: bandit -r app-fixed
+
+  semgrep:
+    name: Semgrep (quality gate on app-fixed)
+    runs-on: ubuntu-latest
+    container: semgrep/semgrep
+    steps:
+      - uses: actions/checkout@v4
+      - name: Report on app-vulnerable (informational)
+        run: semgrep scan --config p/python --config p/flask --config p/secrets --metrics=off app-vulnerable
+      - name: Gate app-fixed (any finding fails the build)
+        run: semgrep scan --config p/python --config p/flask --config p/secrets --metrics=off --error app-fixed

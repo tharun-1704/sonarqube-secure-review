@@ -1,4 +1,5 @@
 # SonarQube Secure Code Review — Before / After
+n[![security](https://github.com/tharun-1704/sonarqube-secure-review/actions/workflows/security.yml/badge.svg)](https://github.com/tharun-1704/sonarqube-secure-review/actions/workflows/security.yml)
 
 A hands-on secure-code-review lab: a deliberately vulnerable Flask app scanned
 with SonarQube, then remediated and re-scanned to show the delta. Demonstrates
@@ -101,7 +102,7 @@ verification is explicitly enabled and the target URL is allow-listed.
 
 A scanner finding is a claim; an exploit is proof. [`tests/test_exploits.py`](tests/test_exploits.py)
 attacks every planted flaw, first against the vulnerable app (attack succeeds)
-and then against the fixed app (attack is blocked): **14 tests, all passing.**
+and then against the fixed app (attack is blocked): **17 tests, all passing.**
 
 | # | Attack | Vulnerable app | Fixed app |
 |---|--------|----------------|-----------|
@@ -121,6 +122,55 @@ Run them (no local Python needed):
 ```bash
 ./run-tests.sh
 ```
+
+---
+
+## Level 2: CI Pipeline and Quality Gate
+
+[`.github/workflows/security.yml`](.github/workflows/security.yml) runs on every
+push and pull request to `main`:
+
+| Job | What it does | Fails the build when |
+|-----|--------------|----------------------|
+| Proof-of-exploit tests | Runs the pytest suite above | Any fix regresses |
+| Bandit | Python SAST; reports on `app-vulnerable`, gates `app-fixed` | Any finding in `app-fixed` |
+| Semgrep | Taint-aware SAST (`p/python`, `p/flask`, `p/secrets`) | Any finding in `app-fixed` |
+
+SonarQube itself runs locally, so the cloud pipeline uses serverless scanners.
+
+### Three scanners, same vulnerable code
+
+| Planted flaw | SonarQube CE | Bandit | Semgrep |
+|--------------|:-----------:|:------:|:-------:|
+| Hardcoded secrets | – | ✅ B105 | – |
+| SQL injection | – | ✅ B608 | ✅ tainted-sql-string |
+| Command injection | – | ✅ B605 | ✅ os-system-injection |
+| Weak hashing (MD5) | – | ✅ B324 | ✅ md5-used-as-password |
+| `eval()` on input | – | ✅ B307 | ✅ eval-injection |
+| TLS verification off | ✅ S4830 | ✅ B501 | – |
+| Debug mode | – | ✅ B201 | ✅ debug-enabled |
+
+SonarQube column = open Vulnerability issues only (Hotspots not counted). No
+single tool caught everything, which is the argument for layering scanners.
+
+### The gate caught two real bugs in the "fixed" app
+
+Wiring up the gate surfaced problems in my own remediation, which is exactly
+what a gate is for:
+
+1. **SSRF via URL parsing.** Semgrep flagged `/fetch`: the hostname was checked
+   with `urlparse`, but the caller's raw string was then passed to `requests`.
+   Different URL parsers can disagree (`https://example.com@169.254.169.254/`).
+   Fix: compare against an allow-list and fetch the **allow-listed constant**,
+   never user input.
+2. **Argument injection into `ping`.** The hostname regex allowed labels that
+   start with `-`, so `host=-f` would reach `ping` as an option, even with
+   `shell=False`. Fix: labels must start and end alphanumeric. Covered by
+   `test_ping_option_injection_rejected_by_fixed`.
+
+Bandit's remaining LOW findings (`subprocess` usage) were reviewed and
+suppressed inline with `# nosec` plus a written justification, the same as
+marking a Hotspot "Safe" in SonarQube.
 
 ---
 
