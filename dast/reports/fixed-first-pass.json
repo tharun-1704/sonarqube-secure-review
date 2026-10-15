@@ -1,0 +1,873 @@
+{
+	"@programName": "ZAP",
+	"@version": "2.17.0",
+	"@generated": "Thu, 15 Oct 2026 19:36:48",
+	"created": "2026-10-15T19:36:48.532999973Z",
+	"insights":[
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://fixed:5000",
+			"key": "insight.code.2xx",
+			"description": "Percentage of responses with status code 2xx",
+			"statistic": "29"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://fixed:5000",
+			"key": "insight.code.4xx",
+			"description": "Percentage of responses with status code 4xx",
+			"statistic": "50"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://fixed:5000",
+			"key": "insight.code.5xx",
+			"description": "Percentage of responses with status code 5xx",
+			"statistic": "19"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://fixed:5000",
+			"key": "insight.endpoint.ctype.application/json",
+			"description": "Percentage of endpoints with content type application/json",
+			"statistic": "25"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://fixed:5000",
+			"key": "insight.endpoint.ctype.text/html",
+			"description": "Percentage of endpoints with content type text/html",
+			"statistic": "75"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://fixed:5000",
+			"key": "insight.endpoint.method.GET",
+			"description": "Percentage of endpoints with method GET",
+			"statistic": "55"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://fixed:5000",
+			"key": "insight.endpoint.method.POST",
+			"description": "Percentage of endpoints with method POST",
+			"statistic": "45"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://fixed:5000",
+			"key": "insight.endpoint.total",
+			"description": "Count of total endpoints",
+			"statistic": "20"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://fixed:5000",
+			"key": "insight.response.slow",
+			"description": "Percentage of slow responses",
+			"statistic": "29"
+		}
+	],
+	"site":[ 
+		{
+			"@name": "http://fixed:5000",
+			"@host": "fixed",
+			"@port": "5000",
+			"@ssl": "false",
+			"alerts": [ 
+				{
+					"pluginid": "30001",
+					"alertRef": "30001",
+					"alert": "Buffer Overflow",
+					"name": "Buffer Overflow",
+					"riskcode": "2",
+					"confidence": "2",
+					"riskdesc": "Medium (Medium)",
+					"desc": "<p>Buffer overflow errors are characterized by the overwriting of memory spaces of the background web process, which should have never been modified intentionally or unintentionally. Overwriting values of the IP (Instruction Pointer), BP (Base Pointer) and other registers causes exceptions, segmentation faults, and other process errors to occur. Usually these errors end execution of the application in an unexpected way.</p>",
+					"instances":[ 
+						{
+							"id": "637",
+							"uri": "http://fixed:5000/register",
+							"nodeName": "http:\/\/fixed:5000\/register ()(password,username)",
+							"method": "POST",
+							"param": "password",
+							"attack": "XbckbcRLmbOBYunnGAHlDhUrciYyfgwMApVchEFcsboMjIqsXpfRjqHmBwHGkVLqCmPjcsjACmufEjGHtGWDsUEpQmfHawnjAaUSBXkexxxaKUqBKyMqBJDBpTvmVsOfyRMAumtAhhnkQtpIyvLppOZeqxDRLxQmOsTKNUwZfmfPgcNFBrpXZIwDTNoeLwvnEhSALWcAYiIscVnFchOjNbeObDoVjTELkirkcIPXaPluTYiojKbtvTnsuCZBgjkktReumYwxBjCmGGFVqYwnQnlPARKjlmTrCkjvZNTpUJfFXPNXjJuLpbdgbAnJXKRVFiqpfdMCmdohaiKuZmwHnHwXygnrwqkmOFiDQHnHlyYHeJQwhHSiCFmaUEuGBPaHdqHNSowquscZZLZhPbvhKImDuGrwmtfpqlMfIuINOhHLKmLMVSBKgdoliIsxBaKhiVgrxkFDQyYJfLauSCeydVcDUejYHoeXGnGtYrepEPDbFGrjmnPqUhoWSyFNvMayrbWGeZmAEGynwdtikBjcYRxJhpofGrcGlIkxQRRaLpMTUqtUdHMNglKxNewlBZeUHNsebnOquUdQZNKLYRJbyxXjttSYjxvQwWVGZVyniiiXQdMitjSqWGBjmkfpfnmkqwLiacsAnWmNCMOnoqcXDbIyTyQiCRJOfZsKGiaDPJlWoxlTJqFTUBLufwKVdMqSjinNpgAqPgBOOteimpMeniaErplXUwdQhcomfgPYQUCeIrsJMauGmDavaHtbyEPFhxLGxswEAXhaTGMNVmUcVsCtgLHeWJGBLymWHhfRikTBBWukIkAFAcwgZXVLMKqYvlgIlLKUprsNMhNyDafbBpEGcUHPqwScXaqXnWvQMcjpTfGsinSMVIDcRdPIEjyJdduykWmYqGlCZcctNkfWCFaSANmZZHraPKGntHtVNgEAXfrRMdxgArqdVpEpMnEoZqWyOPnrpvcUpNoceRVChFHFIAIbqohvRImUMDCGMGVbnYQglxHdCKKxtjbLvYkBguULSoblVVsdaWUvUVaVJyBJciRgICPkhIbsOkGKJPGmCVCbmBykbWWFaeTucmmanoIUlerCcRZauuJHEmeDeAUFqUovbXbdhqFAulwMPmFMCMeddAIaWLSrmYSldjsIQgqABFakLCmoTHNnxYeWgjfZMZjnBFBrbngNhCpPtpwrygJSLysFVUvQxFZtZPXDLUvPxyRabZgpnHbYUXrovEcgOdfFMGGLprgHGUMlIRGSrGdVycCtrTcmFrPeQZjxPSQTawUtZocJgynsKYhuyPXWAnYjuKctHGZECcSIehJNspNDYhTattOAyKOMEohcCsAWjKmoOZdJwCvfCrcuqhcyBSTpNlZkGfwvvnTeyQRFMCWuNVxChRxfOekmgTgoeuCCfkioGJtyblBfTWnOSpqsjSOyKLZWJnNjshGtlEFHyTJjYkKIKocaYBxDYYtxaunVNldPXlJQwHYOhMuxusKQJoxlJntUdFGEKFBKQODgOCmPEsyKHxWLAtlyQrbiuZeIYdfULSEftFKBKxAVcsYfwfDPVOIsDMAJAmwRIQuhxksAmImgGJOgvZSOFONjHFWafgINLbMVRjbPlRPTEjfmoTfhoThAHygdouNYKnNcXonXpaIoQUbhvxgXPhedvpiMRENfXKIIKDuvFysnATepJQsXcAQCyRWGDXKhHePfgNLWmdYyCefLnbPXaomdKtuXhqoeiiDZQFZQchWrSMFXxiyhjHEKeoIgHXIaxbIpMvnMGuCpPaacuvTJCOGbaPWFDyGXWctDhpsOhXAtoQlqhASROCbxwWNUWKYvdpHHHdamwQcmDjIWMuwpCsjhLtjdplMlWmNeGpnTyvXIDgrIetxgpaidtbvdhwrjGOftyPxJJaFNdVwVidlWFbUKLiPLuDdSwxUySxWpPgNDUOaVdXICJgSlKpyLnoXOAPEtAhywumFTdKRlnfdIKUeuMwTZyHkDuTFXPPmxSmsWfJkpbZmfcPFlmbDyLqgFIrfMGLMDMNHyMYwhasvEkPaYnMTmGLDDEuplPIwflPVInZUBcrWZSFhMPOACeUllHcEgkOuKVYsl",
+							"evidence": "Connection: close",
+							"otherinfo": "Potential Buffer Overflow. The script closed the connection and threw a 500 Internal Server Error."
+						},
+						{
+							"id": "634",
+							"uri": "http://fixed:5000/register",
+							"nodeName": "http:\/\/fixed:5000\/register ()(password,username)",
+							"method": "POST",
+							"param": "username",
+							"attack": "NMoegAlArIWuRsGbDZUJDgHbXWtZXctraoZIQrWYTVcWuWdxjpNLkqOMIMlDqBdXopqTJPRQyQdQOCGbNytswZjRgkedgludoATclbACguWhqylSUwcdhmEBrmawOrNjjOhiePtiPXwRrXcfvXrcPEKmuMoCLIJYVRaQfficLIjoFaHcSXkkOklIpWBpvfxXITBCCnloAanOBXTYAJhmKxjEXTowMxTRQJdXWdivDwLAoeqUfciIugDodJFwXmwOSKOhrNJJSPvAejANoqDVdRQLysahEhDcgIbGaOOSrRZqpDrUnlXJpwPEEIlZwlexmydevqJLnCRNhBaepExZIZCHWDetphbYckMbxXVSmekmMGvjBPnuEggHmCCmNMkWVOeamgWmwcKkhaVmAjQOcJieMfjEJYmlcUcRCiOqmnFaLMZchUqhBMRyafiFdSXvWmbpnaWxaCCGVRdQQcVppxgfbeenMXiWukCDhPLNkCTURRcEEbgeFuAYskFXptUlFbPQWekvWZHwQnXjEGnWEYQgNfgbQRkvUysARwcyCChoUkdFrnbndIxUOTvNSkdpTZohUnXkcVvNdhywpioVgPUVuTOGaQbsVnaUAqZXjiTRpkJxXdFQPdOAXIYfCwmsNUkVYIsqZfUteuJnkULoQQOxjlNyEufqakgcBlNimFhakWbSGEDXHuKFLkuaveqJEhSFdOCIwBRrZKTIQupDChQqRFVUEVPOOoPIsuQsNNJdsZjKaoZElOjklTnaNbJWFVBymDUahgDBVBirMEBqAFbQRVCnVJYbovGJYJODwpDDvVytjHXECHEcQwhFfIFpNLOHvesHcsHvtJBykjBuLwSekGdICjpJOSyggbclouGbCadYQdCGOUyQdgFhjOJvsXHDPDVAvHPWxeOKkOrNtdCdJFrICkASnJIUUyFIVPquDYZjSnlUPFNbwyPlXMMdokSEfqCkIeobnFbPgihckdVjqRQQBQBUaDWZqCQcYKlMqRfjbHfATwuQaJeoxuxFIFAVPVcNyyCYXkORGQYSXyKeEoNeuEsKvhwWExahQgVJERAGpmcTNOVtLTnZHyjNGOfXVPwuanZmunXLfxtBqrlQAqCKBGhLxcniWHMXXADwUIbsmeXaQujUSOIYujosWKugmRRuOXVaRYreJHPMKEjsSDjIEITWpbaHSjZcwYRtOEpAFeALnyHCOMkwNENXMvaIajBCbiLgYYvUfoqCbBTAGiwLqiAWsqsBNRrtedmAtQvMfpsvKcReeYmMYyPKpsFMARvdVKmfksvBiUuLlIMfVuSlfUxCofaEskOVLgYJdnQWTdQROyFhjSpETAsCCtHimAfyaGrbCCRnfRjleDdjJTSCVRCXOAAnDWyqDIBIVpXHKqhPrFBYWbUfreVuhvlgwVcjpDbNbIIniCpkgsuCYUmvIHjyuJgwgOtEFPAlgSJNEoxmbXbTcmEFrDxCIjydDZjelcOZcOFcUvnrwFvUQJKMgDckBtAWfKIhaJiEZyrAPESbIePRxRGadejxWCcwyTZidngUQxwKPJPImfKfLPmWCQDvoFyXpCVkfveYeoqkrvhghkQGwKbDZVDUUkdXITwHkjnnYIPOmkNenkTfKjUZoHtJJeejSaFMjYPrfCeHauQBUZDhODCaeywHcWiWCYZExbIgnGboOBjlJTmxlGlHlQeGgSfTLsxWvhMLlqZufVhlEVgUiIrancfAscgGLcqWGjoUeYKWoTWNnhQVUYYojQuqSdoaTMwUNAdcvOQYyxwhWbyXOPZDHSjryUXKApHJNIyTYiyRwkVKvHpjySUdwDDCYxKAytbggCuknPCNCpFKlIAiFJBiGZDhsiChiNTjUQkdgqfKBUARYsEDpAOOaliawfYfcBXGbxubqaerrjdndCTwJUuSCHOhglaZjbthUmQqOCOnXqOAibUSLpHevGXESpyRaIXRHveAplGuGkjNmlLlPswLTSKWZjSdCALTBNhfRiCsWclZBYdmVFxOhFCiNKygUNFXejovSEHgZcUPAYqNMiWOlTBUJBZjgrGQqfWLihsnINwvvsbPAMJuwfjxgaxWxwcBUXQBGAnVElyD",
+							"evidence": "Connection: close",
+							"otherinfo": "Potential Buffer Overflow. The script closed the connection and threw a 500 Internal Server Error."
+						}
+					],
+					"count": "2",
+					"systemic": false,
+					"solution": "<p>Rewrite the background program using proper return length checking. This will require a recompile of the background executable.</p>",
+					"otherinfo": "<p>Potential Buffer Overflow. The script closed the connection and threw a 500 Internal Server Error.</p>",
+					"reference": "<p>https://owasp.org/www-community/attacks/Buffer_overflow_attack</p>",
+					"cweid": "120",
+					"wascid": "7",
+					"sourceid": "678"
+				},
+				{
+					"pluginid": "100000",
+					"alertRef": "100000-2",
+					"alert": "A Server Error response code was returned by the server",
+					"name": "A Server Error response code was returned by the server",
+					"riskcode": "1",
+					"confidence": "3",
+					"riskdesc": "Low (High)",
+					"desc": "<p>A response code of 500 was returned by the server.</p><p>This may indicate that the application is failing to handle unexpected input correctly.</p><p>Raised by the 'Alert on HTTP Response Code Error' script</p>",
+					"instances":[ 
+						{
+							"id": "54",
+							"uri": "http://fixed:5000/register",
+							"nodeName": "http:\/\/fixed:5000\/register ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "500",
+							"otherinfo": ""
+						}
+					],
+					"count": "1",
+					"systemic": false,
+					"solution": "",
+					"otherinfo": "",
+					"reference": "",
+					"cweid": "388",
+					"wascid": "20",
+					"sourceid": "60"
+				},
+				{
+					"pluginid": "90004",
+					"alertRef": "90004-1",
+					"alert": "Cross-Origin-Resource-Policy Header Missing or Invalid",
+					"name": "Cross-Origin-Resource-Policy Header Missing or Invalid",
+					"riskcode": "1",
+					"confidence": "2",
+					"riskdesc": "Low (Medium)",
+					"desc": "<p>Cross-Origin-Resource-Policy header is an opt-in header designed to counter side-channels attacks like Spectre. Resource should be specifically set as shareable amongst different origins.</p>",
+					"instances":[ 
+						{
+							"id": "49",
+							"uri": "http://fixed:5000/calc?expr=1",
+							"nodeName": "http:\/\/fixed:5000\/calc (expr)",
+							"method": "GET",
+							"param": "Cross-Origin-Resource-Policy",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": ""
+						},
+						{
+							"id": "53",
+							"uri": "http://fixed:5000/fetch?url=https://example.com",
+							"nodeName": "http:\/\/fixed:5000\/fetch (url)",
+							"method": "GET",
+							"param": "Cross-Origin-Resource-Policy",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": ""
+						},
+						{
+							"id": "52",
+							"uri": "http://fixed:5000/ping?host=127.0.0.1",
+							"nodeName": "http:\/\/fixed:5000\/ping (host)",
+							"method": "GET",
+							"param": "Cross-Origin-Resource-Policy",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": ""
+						},
+						{
+							"id": "51",
+							"uri": "http://fixed:5000/user?username=alice",
+							"nodeName": "http:\/\/fixed:5000\/user (username)",
+							"method": "GET",
+							"param": "Cross-Origin-Resource-Policy",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": ""
+						},
+						{
+							"id": "50",
+							"uri": "http://fixed:5000/register",
+							"nodeName": "http:\/\/fixed:5000\/register ()(password,username)",
+							"method": "POST",
+							"param": "Cross-Origin-Resource-Policy",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": ""
+						}
+					],
+					"count": "5",
+					"systemic": false,
+					"solution": "<p>Ensure that the application/web server sets the Cross-Origin-Resource-Policy header appropriately, and that it sets the Cross-Origin-Resource-Policy header to 'same-origin' for all web pages.</p><p>'same-site' is considered as less secured and should be avoided.</p><p>If resources must be shared, set the header to 'cross-origin'.</p><p>If possible, ensure that the end user uses a standards-compliant and modern web browser that supports the Cross-Origin-Resource-Policy header (https://caniuse.com/mdn-http_headers_cross-origin-resource-policy).</p>",
+					"otherinfo": "",
+					"reference": "<p>https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Embedder-Policy</p>",
+					"cweid": "693",
+					"wascid": "14",
+					"sourceid": "5"
+				},
+				{
+					"pluginid": "10036",
+					"alertRef": "10036-2",
+					"alert": "Server Leaks Version Information via \"Server\" HTTP Response Header Field",
+					"name": "Server Leaks Version Information via \"Server\" HTTP Response Header Field",
+					"riskcode": "1",
+					"confidence": "3",
+					"riskdesc": "Low (High)",
+					"desc": "<p>The web/application server is leaking version information via the \"Server\" HTTP response header. Access to such information may facilitate attackers identifying other vulnerabilities your web/application server is subject to.</p>",
+					"instances":[ 
+						{
+							"id": "37",
+							"uri": "http://fixed:5000/calc?expr=1",
+							"nodeName": "http:\/\/fixed:5000\/calc (expr)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "Werkzeug/3.1.9 Python/3.12.15",
+							"otherinfo": ""
+						},
+						{
+							"id": "36",
+							"uri": "http://fixed:5000/fetch?url=https://example.com",
+							"nodeName": "http:\/\/fixed:5000\/fetch (url)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "Werkzeug/3.1.9 Python/3.12.15",
+							"otherinfo": ""
+						},
+						{
+							"id": "35",
+							"uri": "http://fixed:5000/ping?host=127.0.0.1",
+							"nodeName": "http:\/\/fixed:5000\/ping (host)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "Werkzeug/3.1.9 Python/3.12.15",
+							"otherinfo": ""
+						},
+						{
+							"id": "38",
+							"uri": "http://fixed:5000/user?username=alice",
+							"nodeName": "http:\/\/fixed:5000\/user (username)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "Werkzeug/3.1.9 Python/3.12.15",
+							"otherinfo": ""
+						},
+						{
+							"id": "34",
+							"uri": "http://fixed:5000/register",
+							"nodeName": "http:\/\/fixed:5000\/register ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "Werkzeug/3.1.9 Python/3.12.15",
+							"otherinfo": ""
+						}
+					],
+					"count": "5",
+					"systemic": false,
+					"solution": "<p>Ensure that your web server, application server, load balancer, etc. is configured to suppress the \"Server\" header or provide generic details.</p>",
+					"otherinfo": "",
+					"reference": "<p>https://httpd.apache.org/docs/current/mod/core.html#servertokens</p><p>https://learn.microsoft.com/en-us/previous-versions/msp-n-p/ff648552(v=pandp.10)</p><p>https://www.troyhunt.com/shhh-dont-let-your-response-headers/</p>",
+					"cweid": "497",
+					"wascid": "13",
+					"sourceid": "5"
+				},
+				{
+					"pluginid": "100001",
+					"alertRef": "100001",
+					"alert": "Unexpected Content-Type was returned",
+					"name": "Unexpected Content-Type was returned",
+					"riskcode": "1",
+					"confidence": "3",
+					"riskdesc": "Low (High)",
+					"desc": "<p>A Content-Type of text/html was returned by the server.</p><p>This is not one of the types expected to be returned by an API.</p><p>Raised by the 'Alert on Unexpected Content Types' script</p>",
+					"instances":[ 
+						{
+							"id": "3",
+							"uri": "http://fixed:5000",
+							"nodeName": "http:\/\/fixed:5000",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "618",
+							"uri": "http://fixed:5000/",
+							"nodeName": "http:\/\/fixed:5000\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "1",
+							"uri": "http://fixed:5000/4015237734343061917",
+							"nodeName": "http:\/\/fixed:5000\/4015237734343061917",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "727",
+							"uri": "http://fixed:5000/actuator/health",
+							"nodeName": "http:\/\/fixed:5000\/actuator\/health",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "620",
+							"uri": "http://fixed:5000/calc/",
+							"nodeName": "http:\/\/fixed:5000\/calc\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "622",
+							"uri": "http://fixed:5000/fetch/",
+							"nodeName": "http:\/\/fixed:5000\/fetch\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "626",
+							"uri": "http://fixed:5000/ping/",
+							"nodeName": "http:\/\/fixed:5000\/ping\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "624",
+							"uri": "http://fixed:5000/user/",
+							"nodeName": "http:\/\/fixed:5000\/user\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "439",
+							"uri": "http://fixed:5000/computeMetadata/v1/",
+							"nodeName": "http:\/\/fixed:5000\/computeMetadata\/v1\/ ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "430",
+							"uri": "http://fixed:5000/latest/meta-data/",
+							"nodeName": "http:\/\/fixed:5000\/latest\/meta-data\/ ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "480",
+							"uri": "http://fixed:5000/metadata/instance",
+							"nodeName": "http:\/\/fixed:5000\/metadata\/instance ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "487",
+							"uri": "http://fixed:5000/metadata/v1",
+							"nodeName": "http:\/\/fixed:5000\/metadata\/v1 ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "450",
+							"uri": "http://fixed:5000/opc/v1/instance/",
+							"nodeName": "http:\/\/fixed:5000\/opc\/v1\/instance\/ ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "460",
+							"uri": "http://fixed:5000/opc/v2/instance/",
+							"nodeName": "http:\/\/fixed:5000\/opc\/v2\/instance\/ ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "493",
+							"uri": "http://fixed:5000/openstack/latest/meta_data.json",
+							"nodeName": "http:\/\/fixed:5000\/openstack\/latest\/meta_data.json ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "55",
+							"uri": "http://fixed:5000/register",
+							"nodeName": "http:\/\/fixed:5000\/register ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						},
+						{
+							"id": "614",
+							"uri": "http://fixed:5000/register/",
+							"nodeName": "http:\/\/fixed:5000\/register\/ ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "text/html",
+							"otherinfo": ""
+						}
+					],
+					"count": "17",
+					"systemic": false,
+					"solution": "",
+					"otherinfo": "",
+					"reference": "",
+					"cweid": "-1",
+					"wascid": "-1",
+					"sourceid": "9"
+				},
+				{
+					"pluginid": "10021",
+					"alertRef": "10021",
+					"alert": "X-Content-Type-Options Header Missing",
+					"name": "X-Content-Type-Options Header Missing",
+					"riskcode": "1",
+					"confidence": "2",
+					"riskdesc": "Low (Medium)",
+					"desc": "<p>The Anti-MIME-Sniffing header X-Content-Type-Options was not set to 'nosniff'. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.</p>",
+					"instances":[ 
+						{
+							"id": "40",
+							"uri": "http://fixed:5000/calc?expr=1",
+							"nodeName": "http:\/\/fixed:5000\/calc (expr)",
+							"method": "GET",
+							"param": "x-content-type-options",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.\nAt \"High\" threshold this scan rule will not alert on client or server error responses."
+						},
+						{
+							"id": "42",
+							"uri": "http://fixed:5000/fetch?url=https://example.com",
+							"nodeName": "http:\/\/fixed:5000\/fetch (url)",
+							"method": "GET",
+							"param": "x-content-type-options",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.\nAt \"High\" threshold this scan rule will not alert on client or server error responses."
+						},
+						{
+							"id": "41",
+							"uri": "http://fixed:5000/ping?host=127.0.0.1",
+							"nodeName": "http:\/\/fixed:5000\/ping (host)",
+							"method": "GET",
+							"param": "x-content-type-options",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.\nAt \"High\" threshold this scan rule will not alert on client or server error responses."
+						},
+						{
+							"id": "39",
+							"uri": "http://fixed:5000/user?username=alice",
+							"nodeName": "http:\/\/fixed:5000\/user (username)",
+							"method": "GET",
+							"param": "x-content-type-options",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.\nAt \"High\" threshold this scan rule will not alert on client or server error responses."
+						},
+						{
+							"id": "43",
+							"uri": "http://fixed:5000/register",
+							"nodeName": "http:\/\/fixed:5000\/register ()(password,username)",
+							"method": "POST",
+							"param": "x-content-type-options",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.\nAt \"High\" threshold this scan rule will not alert on client or server error responses."
+						}
+					],
+					"count": "5",
+					"systemic": false,
+					"solution": "<p>Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to 'nosniff' for all web pages.</p><p>If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.</p>",
+					"otherinfo": "<p>This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.</p><p>At \"High\" threshold this scan rule will not alert on client or server error responses.</p>",
+					"reference": "<p>https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/compatibility/gg622941(v=vs.85)</p><p>https://owasp.org/www-community/Security_Headers</p>",
+					"cweid": "693",
+					"wascid": "15",
+					"sourceid": "5"
+				},
+				{
+					"pluginid": "100000",
+					"alertRef": "100000-1",
+					"alert": "A Client Error response code was returned by the server",
+					"name": "A Client Error response code was returned by the server",
+					"riskcode": "0",
+					"confidence": "3",
+					"riskdesc": "Informational (High)",
+					"desc": "<p>A response code of 404 was returned by the server.</p><p>This may indicate that the application is failing to handle unexpected input correctly.</p><p>Raised by the 'Alert on HTTP Response Code Error' script</p>",
+					"instances":[ 
+						{
+							"id": "2",
+							"uri": "http://fixed:5000",
+							"nodeName": "http:\/\/fixed:5000",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "617",
+							"uri": "http://fixed:5000/",
+							"nodeName": "http:\/\/fixed:5000\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "0",
+							"uri": "http://fixed:5000/4015237734343061917",
+							"nodeName": "http:\/\/fixed:5000\/4015237734343061917",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "725",
+							"uri": "http://fixed:5000/actuator/health",
+							"nodeName": "http:\/\/fixed:5000\/actuator\/health",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "4",
+							"uri": "http://fixed:5000/calc?expr=http%3A%2F%2Fwww.google.com%2F",
+							"nodeName": "http:\/\/fixed:5000\/calc (expr)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "400",
+							"otherinfo": ""
+						},
+						{
+							"id": "619",
+							"uri": "http://fixed:5000/calc/",
+							"nodeName": "http:\/\/fixed:5000\/calc\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5",
+							"uri": "http://fixed:5000/fetch?url=http%3A%2F%2Fwww.google.com%2F",
+							"nodeName": "http:\/\/fixed:5000\/fetch (url)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "400",
+							"otherinfo": ""
+						},
+						{
+							"id": "621",
+							"uri": "http://fixed:5000/fetch/",
+							"nodeName": "http:\/\/fixed:5000\/fetch\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "7",
+							"uri": "http://fixed:5000/ping?host=http%3A%2F%2Fwww.google.com%2F",
+							"nodeName": "http:\/\/fixed:5000\/ping (host)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "400",
+							"otherinfo": ""
+						},
+						{
+							"id": "625",
+							"uri": "http://fixed:5000/ping/",
+							"nodeName": "http:\/\/fixed:5000\/ping\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "623",
+							"uri": "http://fixed:5000/user/",
+							"nodeName": "http:\/\/fixed:5000\/user\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "438",
+							"uri": "http://fixed:5000/computeMetadata/v1/",
+							"nodeName": "http:\/\/fixed:5000\/computeMetadata\/v1\/ ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "429",
+							"uri": "http://fixed:5000/latest/meta-data/",
+							"nodeName": "http:\/\/fixed:5000\/latest\/meta-data\/ ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "479",
+							"uri": "http://fixed:5000/metadata/instance",
+							"nodeName": "http:\/\/fixed:5000\/metadata\/instance ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "486",
+							"uri": "http://fixed:5000/metadata/v1",
+							"nodeName": "http:\/\/fixed:5000\/metadata\/v1 ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "449",
+							"uri": "http://fixed:5000/opc/v1/instance/",
+							"nodeName": "http:\/\/fixed:5000\/opc\/v1\/instance\/ ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "459",
+							"uri": "http://fixed:5000/opc/v2/instance/",
+							"nodeName": "http:\/\/fixed:5000\/opc\/v2\/instance\/ ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "492",
+							"uri": "http://fixed:5000/openstack/latest/meta_data.json",
+							"nodeName": "http:\/\/fixed:5000\/openstack\/latest\/meta_data.json ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "613",
+							"uri": "http://fixed:5000/register/",
+							"nodeName": "http:\/\/fixed:5000\/register\/ ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						}
+					],
+					"count": "19",
+					"systemic": false,
+					"solution": "",
+					"otherinfo": "",
+					"reference": "",
+					"cweid": "388",
+					"wascid": "20",
+					"sourceid": "9"
+				},
+				{
+					"pluginid": "10024",
+					"alertRef": "10024",
+					"alert": "Information Disclosure - Sensitive Information in URL",
+					"name": "Information Disclosure - Sensitive Information in URL",
+					"riskcode": "0",
+					"confidence": "2",
+					"riskdesc": "Informational (Medium)",
+					"desc": "<p>The request appeared to contain sensitive information leaked in the URL. This can violate PCI and most organizational compliance policies. You can configure the list of strings for this check to add or remove values specific to your environment.</p>",
+					"instances":[ 
+						{
+							"id": "33",
+							"uri": "http://fixed:5000/user?username=alice",
+							"nodeName": "http:\/\/fixed:5000\/user (username)",
+							"method": "GET",
+							"param": "username",
+							"attack": "",
+							"evidence": "username",
+							"otherinfo": "The URL contains potentially sensitive information. The following string was found via the pattern: user\nusername"
+						}
+					],
+					"count": "1",
+					"systemic": false,
+					"solution": "<p>Do not pass sensitive information in URIs.</p>",
+					"otherinfo": "<p>The URL contains potentially sensitive information. The following string was found via the pattern: user</p><p>username</p>",
+					"reference": "",
+					"cweid": "598",
+					"wascid": "13",
+					"sourceid": "3"
+				},
+				{
+					"pluginid": "10049",
+					"alertRef": "10049-3",
+					"alert": "Storable and Cacheable Content",
+					"name": "Storable and Cacheable Content",
+					"riskcode": "0",
+					"confidence": "2",
+					"riskdesc": "Informational (Medium)",
+					"desc": "<p>The response contents are storable by caching components such as proxy servers, and may be retrieved directly from the cache, rather than from the origin server by the caching servers, in response to similar requests from other users. If the response data is sensitive, personal or user-specific, this may result in sensitive information being leaked. In some cases, this may even result in a user gaining complete control of the session of another user, depending on the configuration of the caching components in use in their environment. This is primarily an issue where \"shared\" caching servers such as \"proxy\" caches are configured on the local network. This configuration is typically found in corporate or educational environments, for instance.</p>",
+					"instances":[ 
+						{
+							"id": "45",
+							"uri": "http://fixed:5000/calc?expr=1",
+							"nodeName": "http:\/\/fixed:5000\/calc (expr)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": "In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234."
+						},
+						{
+							"id": "46",
+							"uri": "http://fixed:5000/fetch?url=https://example.com",
+							"nodeName": "http:\/\/fixed:5000\/fetch (url)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": "In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234."
+						},
+						{
+							"id": "48",
+							"uri": "http://fixed:5000/ping?host=127.0.0.1",
+							"nodeName": "http:\/\/fixed:5000\/ping (host)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": "In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234."
+						},
+						{
+							"id": "47",
+							"uri": "http://fixed:5000/user?username=alice",
+							"nodeName": "http:\/\/fixed:5000\/user (username)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": "In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234."
+						},
+						{
+							"id": "44",
+							"uri": "http://fixed:5000/register",
+							"nodeName": "http:\/\/fixed:5000\/register ()(password,username)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": "In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234."
+						}
+					],
+					"count": "5",
+					"systemic": false,
+					"solution": "<p>Validate that the response does not contain sensitive, personal or user-specific information. If it does, consider the use of the following HTTP response headers, to limit, or prevent the content being stored and retrieved from the cache by another user:</p><p>Cache-Control: no-cache, no-store, must-revalidate, private</p><p>Pragma: no-cache</p><p>Expires: 0</p><p>This configuration directs both HTTP 1.0 and HTTP 1.1 compliant caching servers to not store the response, and to not retrieve the response (without validation) from the cache, in response to a similar request.</p>",
+					"otherinfo": "<p>In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234.</p>",
+					"reference": "<p>https://datatracker.ietf.org/doc/html/rfc7234</p><p>https://datatracker.ietf.org/doc/html/rfc7231</p><p>https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html</p>",
+					"cweid": "524",
+					"wascid": "13",
+					"sourceid": "5"
+				}
+			]
+		}
+	],
+	"sequences":[
+	]
+
+}

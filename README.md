@@ -103,7 +103,7 @@ verification is explicitly enabled and the target URL is allow-listed.
 
 A scanner finding is a claim; an exploit is proof. [`tests/test_exploits.py`](tests/test_exploits.py)
 attacks every planted flaw, first against the vulnerable app (attack succeeds)
-and then against the fixed app (attack is blocked): **17 tests, all passing.**
+and then against the fixed app (attack is blocked): **20 tests, all passing.**
 
 | # | Attack | Vulnerable app | Fixed app |
 |---|--------|----------------|-----------|
@@ -213,6 +213,65 @@ variable name instead. Again, layering tools covers each one's blind spot.
   `app-vulnerable` is excluded on purpose.
 - [`.gitleaks.toml`](.gitleaks.toml) allow-lists only `app-vulnerable/`, with
   the reason written down: a documented suppression, not a silenced alarm.
+
+---
+
+## Level 2: DAST with OWASP ZAP
+
+SAST reads code; **DAST attacks the running app** from the outside, with no
+source access. Both apps run in Docker ([`dast/`](dast/)) on a local-only
+network, and ZAP's active API scan is driven by an OpenAPI description of the
+endpoints ([`dast/openapi.yaml`](dast/openapi.yaml)).
+
+```bash
+./dast/run-dast.sh   # reports land in dast/reports/
+```
+
+### What ZAP found
+
+| Finding | `app-vulnerable` | `app-fixed` (first pass) | Verdict |
+|---------|:----------------:|:------------------------:|---------|
+| SQL injection on `/user` | ✅ High | – | True positive |
+| "Server-Side Template Injection (Blind)" on `/calc` | ✅ High | – | True positive, **mislabelled**: ZAP's `sleep 15` payload executed through `eval()`. It's code injection |
+| Command injection on `/ping` | ❌ | – | **Missed** (false negative) |
+| 500 on `POST /register` | ✅ | ✅ | **Real bug in the fixed app** (see below) |
+| Buffer overflow / format string | flagged | flagged | False positive: no such class in Python; ZAP saw the 500s |
+| Missing `X-Content-Type-Options`, `Cross-Origin-Resource-Policy` | flagged | flagged | Real hardening gap, fixed |
+
+Hardcoded secrets, MD5 hashing, `verify=False`, and debug mode are invisible
+from the outside. DAST can't see them, SAST can. That's the trade-off.
+
+### DAST found two more real bugs in the "fixed" app
+
+1. **Duplicate username → 500.** The `UNIQUE` constraint raised an unhandled
+   `IntegrityError`. Now a clean `409`.
+2. **Password > 72 bytes → 500.** bcrypt only uses the first 72 bytes:
+   bcrypt 5 raises, older releases **silently truncate** (two passwords sharing
+   a 72-byte prefix would match). Now rejected up front with `400`.
+
+Both have regression tests. After the fixes, a rescan of `app-fixed` produced
+**zero 500 responses**.
+
+### Triaging what's left on `app-fixed`
+
+| Remaining alert | Verdict |
+|-----------------|---------|
+| SQL injection on `/register` | **False positive.** Every ZAP payload (`alice' AND '1'='1' --`, `alice;cat /etc/passwd;`, ...) was stored *literally* as a username, which shows the parameterized query treats it as data. ZAP saw different responses because `/register` is stateful: 200 the first time, 409 on repeat. |
+| Server version header | Flask's dev server announces itself. Deployment concern: run behind gunicorn and a reverse proxy in production. |
+| Unexpected Content-Type | Informational: it's a JSON API, and JSON is intended. |
+
+### SAST vs DAST, side by side
+
+| Planted flaw | SonarQube CE | Bandit | Semgrep | ZAP |
+|--------------|:-----------:|:------:|:-------:|:---:|
+| Hardcoded secrets | – | ✅ | – | – |
+| SQL injection | – | ✅ | ✅ | ✅ |
+| Command injection | – | ✅ | ✅ | ❌ |
+| Weak hashing | – | ✅ | ✅ | – |
+| `eval()` | – | ✅ | ✅ | ✅ |
+| TLS verification off | ✅ | ✅ | – | – |
+| Debug mode | – | ✅ | ✅ | – |
+| Bugs only visible at runtime (500s) | – | – | – | ✅ |
 
 ---
 

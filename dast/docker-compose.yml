@@ -1,0 +1,24 @@
+# DAST targets. LOCAL ONLY: the vulnerable app is never exposed beyond this
+# Docker network and localhost.
+services:
+  vulnerable:
+    build: .
+    volumes: ["../app-vulnerable:/app:ro"]
+    working_dir: /tmp
+    # Started exactly as written: python app.py -> debug=True on 0.0.0.0.
+    command: python /app/app.py
+    ports: ["127.0.0.1:5001:5000"]
+
+  fixed:
+    build: .
+    volumes: ["../app-fixed:/app:ro"]
+    working_dir: /tmp
+    environment:
+      FLASK_SECRET_KEY: dast-only-secret
+      DB_PATH: /tmp/users.db
+    # app.run() binds 127.0.0.1 by design; inside a container the scanner needs
+    # 0.0.0.0, so run it via the flask CLI (still debug off).
+    command: >-
+      sh -c "cd /app && python -c 'import app; app.init_db()'
+      && flask --app app run --host 0.0.0.0 --port 5000"
+    ports: ["127.0.0.1:5002:5000"]

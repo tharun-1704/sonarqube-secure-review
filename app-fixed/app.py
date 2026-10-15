@@ -55,17 +55,35 @@ def is_valid_host(host):
         return bool(HOSTNAME_RE.match(host))
 
 
+@app.after_request
+def set_security_headers(response):
+    # Hardening headers ZAP reported missing.
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
+    response.headers["Cache-Control"] = "no-store"
+    return response
+
+
 @app.route("/register", methods=["POST"])
 def register():
     username = request.form["username"]
     password = request.form["password"]
+    # Found by ZAP: bcrypt only uses the first 72 bytes. bcrypt 5 raises (a 500)
+    # and older releases silently truncate, so reject long passwords up front.
+    if len(password.encode()) > 72:
+        return jsonify(error="password must be at most 72 bytes"), 400
     conn = get_db()
-    conn.execute(
-        "INSERT INTO users (username, password_hash) VALUES (?, ?)",
-        (username, hash_password(password)),
-    )
-    conn.commit()
-    conn.close()
+    try:
+        conn.execute(
+            "INSERT INTO users (username, password_hash) VALUES (?, ?)",
+            (username, hash_password(password)),
+        )
+        conn.commit()
+    except sqlite3.IntegrityError:
+        # Found by ZAP: a duplicate username used to surface as a 500.
+        return jsonify(error="username already taken"), 409
+    finally:
+        conn.close()
     return jsonify(status="registered")
 
 
