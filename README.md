@@ -40,16 +40,33 @@ A small Flask app with intentionally planted flaws (each marked `# FLAW:` in cod
 
 ## Findings (Before)
 
-| Category | Count |
-|----------|-------|
-| Bugs | <fill in> |
-| Vulnerabilities | <fill in> |
-| Security Hotspots | <fill in> |
-| Code Smells | <fill in> |
+Scanned with SonarQube Community Edition (`sonarqube:lts-community`).
 
-*(Screenshot: `docs/before.png`.)*
+| Category | Vulnerable app |
+|----------|----------------|
+| Vulnerabilities (open issues) | **1** |
 
-<Write 1–2 sentences per key finding: what SonarQube flagged and why it's a risk.>
+*(Dashboard screenshot with hotspot / smell counts: `docs/before.png`, pending.)*
+
+**Confirmed issue:**
+
+- **`python:S4830`, CRITICAL Vulnerability (line 86):** *"Enable server
+  certificate validation on this SSL/TLS connection."* `requests.get(..., verify=False)`
+  accepts any certificate, so anyone on the network path can impersonate the
+  remote server and read or alter the traffic (man-in-the-middle).
+
+**What was *not* reported as a Vulnerability, and why that matters:**
+
+SQL injection, command injection, and `eval()` on user input did **not** show up
+as Vulnerability issues. Detecting them requires *taint analysis*, which traces
+untrusted input (`request.args`) to a dangerous sink (`execute`, `os.system`,
+`eval`). That engine ships only in SonarQube's commercial editions. In
+Community Edition these patterns surface at most as Security Hotspots for a human
+to review, or not at all.
+
+Takeaway: a clean SAST dashboard is not a clean app. The scanner's edition and
+rule set define what it can see, and manual review (plus the Level 2 checks
+below) has to cover the gap.
 
 ---
 
@@ -71,12 +88,12 @@ A small Flask app with intentionally planted flaws (each marked `# FLAW:` in cod
 
 | Category | Before | After |
 |----------|--------|-------|
-| Bugs | <x> | <y> |
-| Vulnerabilities | <x> | <y> |
-| Security Hotspots | <x> | <y> |
-| Code Smells | <x> | <y> |
+| Vulnerabilities (open issues) | 1 | **0** |
 
-*(Screenshot: `docs/after.png`.)*
+The remediated app scans with **0 open issues**. The TLS finding is gone because
+verification is explicitly enabled and the target URL is allow-listed.
+
+*(Dashboard screenshot: `docs/after.png`, pending.)*
 
 ---
 
@@ -88,8 +105,13 @@ A small Flask app with intentionally planted flaws (each marked `# FLAW:` in cod
   always a bug, but worth checking) — reviewing these is core to triage.
 - **Code Smell:** maintainability issue, not a direct security risk.
 
-<Add a note on how this maps to real triage: separating true positives from
-hotspots that are actually fine is exactly the false-positive work in a SOC.>
+**How this maps to real triage:** a Vulnerability is SonarQube's claim that
+something is exploitable; a Hotspot is a question for a human. Triage means
+confirming true positives (the `verify=False` finding is real), marking hotspots
+that are safe in context as reviewed, and, just as important, knowing which
+classes of bug the tool *can't* see (here, injection without taint analysis).
+That is the same false-positive / false-negative judgement SOC analysts apply
+to alerts every day.
 
 ---
 
