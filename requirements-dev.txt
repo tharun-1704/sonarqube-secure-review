@@ -1,0 +1,2 @@
+-r app-fixed/requirements.txt
+pytest>=8.0

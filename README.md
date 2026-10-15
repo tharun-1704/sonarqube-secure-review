@@ -97,6 +97,33 @@ verification is explicitly enabled and the target URL is allow-listed.
 
 ---
 
+## Level 2: Proof of Exploit
+
+A scanner finding is a claim; an exploit is proof. [`tests/test_exploits.py`](tests/test_exploits.py)
+attacks every planted flaw, first against the vulnerable app (attack succeeds)
+and then against the fixed app (attack is blocked): **14 tests, all passing.**
+
+| # | Attack | Vulnerable app | Fixed app |
+|---|--------|----------------|-----------|
+| 1 | SQLi: `x' UNION SELECT id, password_hash ... --` | Dumps alice's password hash | Treated as a literal username, returns nothing |
+| 2 | Command injection: `127.0.0.1; touch /tmp/pwned` | Attacker's command runs on the server | `400`, hostname validation rejects it |
+| 3 | `eval`: `__import__('os').getpid()` | Arbitrary Python executes | `400`, `literal_eval` only allows literals |
+| 4 | Crack MD5 with a wordlist | `password123` recovered instantly | bcrypt: salted, two users with the same password get different hashes |
+| 5 | Forge a session with the leaked `SECRET_KEY` | Signed `is_admin: true` cookie accepted | Signature rejected; key lives only in env |
+| 6 | Fetch over TLS / hit `169.254.169.254` | `verify=False` (MITM possible) | `verify=True`, non-allow-listed URLs blocked (SSRF) |
+| 7 | Start-up config | `debug=True` on `0.0.0.0` (Werkzeug console = RCE) | `debug=False` on `127.0.0.1` |
+
+Note the SonarQube gap: Community Edition reported only #6 as a Vulnerability,
+yet #1–#3 are fully exploitable. The tests catch what the scanner missed.
+
+Run them (no local Python needed):
+
+```bash
+./run-tests.sh
+```
+
+---
+
 ## What SonarQube's Categories Mean (in my own words)
 
 - **Bug:** code that is demonstrably wrong and may break at runtime.
