@@ -1,5 +1,6 @@
 # SonarQube Secure Code Review — Before / After
-n[![security](https://github.com/tharun-1704/sonarqube-secure-review/actions/workflows/security.yml/badge.svg)](https://github.com/tharun-1704/sonarqube-secure-review/actions/workflows/security.yml)
+
+[![security](https://github.com/tharun-1704/sonarqube-secure-review/actions/workflows/security.yml/badge.svg)](https://github.com/tharun-1704/sonarqube-secure-review/actions/workflows/security.yml)
 
 A hands-on secure-code-review lab: a deliberately vulnerable Flask app scanned
 with SonarQube, then remediated and re-scanned to show the delta. Demonstrates
