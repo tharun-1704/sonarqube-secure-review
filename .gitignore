@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.scannerwork/
+.env
+.DS_Store
+*.db
