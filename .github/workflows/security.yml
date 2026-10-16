@@ -14,7 +14,7 @@ jobs:
     name: Proof-of-exploit tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -25,7 +25,7 @@ jobs:
     name: Bandit (quality gate on app-fixed)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     container: semgrep/semgrep
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Report on app-vulnerable (informational)
         run: semgrep scan --config p/python --config p/flask --config p/secrets --metrics=off app-vulnerable
       - name: Gate app-fixed (any finding fails the build)
@@ -50,7 +50,7 @@ jobs:
     name: pip-audit (dependency gate on app-fixed)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -64,7 +64,7 @@ jobs:
     name: gitleaks (secret gate, full git history)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Report on app-vulnerable (informational)
